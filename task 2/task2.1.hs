@@ -1,0 +1,9 @@
+sum3 :: Num a => [a] -> [a] -> [a] -> [a]
+sum3 (x : xx) (y : yy) [] = x + y : sum3 xx yy []
+sum3 (x : xx) [] (z : zz) = x + z : sum3 xx zz []
+sum3 [] (y : yy) (z : zz) = y + z : sum3 yy zz []
+sum3 (x : xx) [] [] = x : sum3 xx [] []
+sum3 [] (y : yy) [] = y : sum3 yy [] []
+sum3 [] [] (z : zz) = z : sum3 zz [] []
+sum3 [] [] [] = []
+sum3 (x : xx) (y : yy) (z : zz) = x + y + z : sum3 xx yy zz
