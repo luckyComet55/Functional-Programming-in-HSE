@@ -28,3 +28,14 @@ instance Foldable Postorder where
         where
             res = foldr f res' (PostO tr)
             res' = f a z
+
+instance Foldable Levelorder where
+    foldr :: (a -> b -> b) -> b -> Levelorder a -> b
+    foldr _ z (LevelO Nil) = z
+    foldr f z (LevelO tree@(Branch tl a tr)) = helper [tree] []
+        where
+            helper [] rest
+                | null rest = z
+                | otherwise = helper (reverse rest) []
+            helper (Nil : xs) rest = helper xs rest
+            helper ((Branch tl a tr) : xs) rest = f a (helper xs (tr : tl : rest))
