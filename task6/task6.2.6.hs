@@ -18,10 +18,13 @@ instance Foldable Preorder where
     foldr _ z (PreO Nil) = z
     foldr f z (PreO (Branch tl a tr)) = f a res
         where
-            res = foldr f res' tl
-            res' = foldr f z tr
+            res = foldr f res' (PreO tl)
+            res' = foldr f z (PreO tr)
 
 instance Foldable Postorder where
     foldr :: (a -> b -> b) -> b -> Postorder a -> b
     foldr _ z (PostO Nil) = z
-    foldr f z (PostO (Branch tl a tr)) = foldr f (foldr f (f a z) tr) tl
+    foldr f z (PostO (Branch tl a tr)) = foldr f res (PostO tl)
+        where
+            res = foldr f res' (PostO tr)
+            res' = f a z
