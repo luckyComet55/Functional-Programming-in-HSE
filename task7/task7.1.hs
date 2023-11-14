@@ -5,10 +5,12 @@ data E l r = L l | R r
 
 instance Functor (E l) where
   fmap :: (a -> b) -> E l a -> E l b
-  fmap = undefined
+  fmap _ (L x) = L x
+  fmap g (R y) = R (g y)
 
 instance Applicative (E l) where
   pure :: a -> E l a
-  pure  = undefined
+  pure = R
   (<*>) :: E l (a -> b) -> E l a -> E l b
-  (<*>) = undefined
+  (<*>) (L x) _ = L x
+  (<*>) (R y) f = fmap y f
