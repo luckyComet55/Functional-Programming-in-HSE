@@ -1,3 +1,4 @@
+import Control.Monad (ap)
 -- Рукописный логгер
 data Logged a = Logged String a deriving (Eq,Show)
 
@@ -6,7 +7,7 @@ instance Functor Logged where
 
 instance Applicative Logged where
   pure = Logged ""
-  (<*>) (Logged s1 f) (Logged s2 a) = Logged (s1 ++ s2) (f a)
+  (<*>) = ap
 
 instance Monad Logged where
   return = pure
